@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/basico.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h2>Generación solicitud de tarjeta de Crédito</h2>
+        <p class="lead">
+            En este apartado puedes solicitar la <strong>Tarjeta de Crédito</strong> de un cliente.
+        </p>
+        <h:form>
+            <h:dataTable binding="#{table}" value="#{clienteController.getTodosClientes()}" var="u" class="table table-striped table-hover table-bordered mt-5" >
+                <h:column>
+                    <f:facet name="header">#</f:facet>
+                    <h:outputText value="#{table.rowIndex + 1}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Num Documento</f:facet>
+                    <h:outputText value="#{u.numIdentificacion}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Nombres</f:facet>
+                    <h:outputText value="#{u.nombres}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Apellidos</f:facet>
+                    <h:outputText value="#{u.apellidos}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Direccion</f:facet> 
+                    <h:outputText value="#{u.direccion}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">telefono</f:facet>
+                    <h:outputText value="#{u.telefono}"/>
+                </h:column>
+                <h:column> 
+                    <f:facet name="header">Solicitar Tarjeta</f:facet>
+                    <h:commandButton action = "#{clienteController.aprobarTarjeta(u.numIdentificacion)}" value="Solicitar" class="btn btn-info"> 
+                    </h:commandButton>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+
+        <h:panelGrid id="alert-success" columns="1" rendered="#{tcStatus eq 'ok'}" class="mt-4">
+            <div class="alert alert-success mt-4" role="alert">
+                #{tcMessage} 
+            </div>
+        </h:panelGrid>
+        <h:panelGrid id="alert-error" columns="1" rendered="#{tcStatus eq 'error'}" class="mt-4">
+            <div class="alert alert-danger mt-4" role="alert">
+                #{tcMessage} 
+            </div>
+        </h:panelGrid>
+    </ui:define>
+
+</ui:composition>
